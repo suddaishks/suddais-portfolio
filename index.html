@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suddais Ahmed | Professional Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-        <style>
+    <style>
         :root { 
             --primary: #00d2ff; 
             --secondary: #0088ff;
@@ -17,11 +17,22 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background-color: var(--bg); color: var(--text); overflow-x: hidden; scroll-behavior: smooth; }
 
-        /* Background Glow - تھوڑا اور بہتر کیا گیا ہے */
-        body::before {
-            content: ''; position: fixed; top: -10%; left: -10%; width: 50%; height: 50%;
-            background: radial-gradient(circle, rgba(0, 210, 255, 0.1), transparent 70%); z-index: -1;
+        /* Floating Background Orbs - جدید اینیمیشن */
+        .orb {
+            position: fixed; width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(0, 210, 255, 0.05), transparent 70%);
+            border-radius: 50%; z-index: -1; animation: float 10s infinite alternate;
         }
+        @keyframes float { from { transform: translate(0, 0); } to { transform: translate(100px, 100px); } }
+
+        /* NAVBAR - جدید مینیو */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 20px 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; transition: 0.5s;
+            background: rgba(0,0,0,0.2); backdrop-filter: blur(10px);
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: 2px; }
 
         /* PRELOADER */
         #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #000; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; }
@@ -33,137 +44,108 @@
         #main-content { opacity: 0; transition: 1s; }
         .show-content { opacity: 1 !important; }
 
-        /* HERO SECTION - اینیمیٹڈ ٹیکسٹ کے ساتھ */
-        header { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle, #0a0a0a 0%, #000 100%); padding: 20px; }
-        h1 { font-size: clamp(2.5rem, 8vw, 4rem); letter-spacing: 3px; text-transform: uppercase; line-height: 1.2; }
+        /* HERO SECTION */
+        header { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
         
-        /* نام کے لیے جدید گریڈینٹ اینیمیشن */
+        /* LOGO ICON - تصویر کی جگہ اسٹائلش دائرہ */
+        .profile-icon {
+            width: 120px; height: 120px; border-radius: 50%; margin-bottom: 25px;
+            display: flex; justify-content: center; align-items: center;
+            border: 2px solid var(--primary); color: var(--primary);
+            font-size: 3rem; font-weight: 900;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+            animation: pulse 2s infinite alternate;
+        }
+        @keyframes pulse { to { transform: scale(1.05); box-shadow: 0 0 40px rgba(0, 210, 255, 0.5); } }
+
+        h1 { font-size: clamp(2.5rem, 8vw, 4rem); letter-spacing: 3px; text-transform: uppercase; line-height: 1.2; }
         h1 span { 
             background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: shine 3s linear infinite;
         }
         @keyframes shine { to { background-position: 200% center; } }
 
-        .typing { font-size: 1.2rem; color: #aaa; margin: 15px 0; min-height: 1.6em; font-weight: 300; letter-spacing: 1px; }
+        .typing { font-size: 1.2rem; color: #aaa; margin: 15px 0; min-height: 1.6em; }
 
-        .cv-btn { background: linear-gradient(45deg, var(--primary), var(--secondary)); color: #000; padding: 14px 35px; border-radius: 50px; text-decoration: none; font-weight: bold; transition: 0.4s; display: inline-flex; align-items: center; gap: 10px; margin-top: 20px; font-size: 0.9rem; border: none; }
-        .cv-btn:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 210, 255, 0.4); filter: brightness(1.1); }
+        .cv-btn { 
+            background: linear-gradient(45deg, var(--primary), var(--secondary)); color: #000; 
+            padding: 14px 35px; border-radius: 50px; text-decoration: none; font-weight: bold; 
+            transition: 0.4s; display: inline-flex; align-items: center; gap: 10px; margin-top: 20px; 
+        }
+        .cv-btn:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 210, 255, 0.4); }
 
-        /* SECTIONS - اسکرول اینیمیشن کے لیے تیار */
-        .section { padding: 100px 8%; text-align: center; opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
+        /* SECTIONS */
+        .section { padding: 100px 8%; text-align: center; opacity: 0; transform: translateY(40px); transition: 0.8s ease-out; }
         .section.active { opacity: 1; transform: translateY(0); }
-        
         h2 { font-size: 2.2rem; margin-bottom: 50px; position: relative; display: inline-block; }
-        h2::after { content: ''; width: 60px; height: 3px; background: var(--primary); position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%); border-radius: 10px; }
+        h2::after { content: ''; width: 60px; height: 3px; background: var(--primary); position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%); }
 
-        /* SLIDER WITH GLASS EFFECT */
+        /* SLIDER */
         .slider-wrapper { 
             position: relative; max-width: 900px; margin: auto; overflow: hidden; 
-            background: var(--card); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 30px; 
+            background: var(--card); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 30px; 
             padding: 50px 30px; box-shadow: 0 25px 50px rgba(0,0,0,0.6);
         }
         .slider { display: flex; transition: 0.7s cubic-bezier(0.645, 0.045, 0.355, 1); }
         .slide { min-width: 100%; padding: 10px; }
-        .slide i { font-size: 4rem; color: var(--primary); margin-bottom: 25px; display: block; filter: drop-shadow(0 0 10px rgba(0,210,255,0.3)); }
-        .slide h3 { font-size: 1.8rem; margin-bottom: 15px; color: #fff; }
-        .slide p { color: #aaa; line-height: 1.8; font-size: 1rem; max-width: 600px; margin: auto; }
+        .slide i { font-size: 4rem; color: var(--primary); margin-bottom: 25px; display: block; }
+        .s-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(0,210,255,0.3); color: var(--primary); padding: 12px 30px; border-radius: 50px; margin: 30px 8px 0; cursor: pointer; transition: 0.3s; font-weight: bold; }
 
-        .s-btn { 
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(0,210,255,0.3); color: var(--primary);
-            padding: 12px 30px; border-radius: 50px; margin: 30px 8px 0; cursor: pointer; transition: 0.3s; font-size: 0.85rem; font-weight: bold;
-        }
-        .s-btn:hover { background: var(--primary); color: #000; border-color: var(--primary); transform: scale(1.05); }
+        /* PRICING */
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .price-card { background: var(--card); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); padding: 50px 35px; border-radius: 30px; transition: 0.4s; }
+        .price-card:hover { border-color: var(--primary); transform: translateY(-15px); }
+        .price-card.popular { border: 1px solid var(--primary); }
+        .price-card .cost { font-size: 2.8rem; font-weight: 800; margin: 25px 0; }
+        .price-card ul { list-style: none; text-align: left; margin-bottom: 35px; }
+        .price-card ul li { margin-bottom: 15px; color: #ccc; }
 
-        /* PRICING CARDS - GLASSMORPHISM */
-        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 20px; }
-        .price-card { 
-            background: var(--card); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.08); padding: 50px 35px; border-radius: 30px; transition: 0.4s; 
-        }
-        .price-card:hover { border-color: var(--primary); transform: translateY(-15px); background: rgba(255, 255, 255, 0.06); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .price-card.popular { border: 1px solid var(--primary); background: rgba(0, 210, 255, 0.03); }
-        .price-card h3 { font-size: 1.4rem; color: var(--primary); letter-spacing: 1px; }
-        .price-card .cost { font-size: 2.8rem; font-weight: 800; margin: 25px 0; color: #fff; }
-        .price-card ul { list-style: none; text-align: left; margin-bottom: 35px; padding-left: 10px; }
-        .price-card ul li { margin-bottom: 15px; font-size: 0.95rem; color: #ccc; display: flex; align-items: center; gap: 12px; }
-        .price-card ul li i { color: var(--primary); font-size: 1.1rem; }
-
-        /* SKILLS GRID */
+        /* SKILLS */
         .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 20px; }
-        .skill-card { 
-            background: var(--card); border: 1px solid rgba(255,255,255,0.05); padding: 30px 15px; 
-            border-radius: 25px; transition: 0.3s; backdrop-filter: blur(10px);
-        }
-        .skill-card:hover { border-color: var(--primary); transform: scale(1.05); background: rgba(255,255,255,0.08); }
+        .skill-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); padding: 30px 15px; border-radius: 25px; transition: 0.3s; }
         .skill-card i { font-size: 2.8rem; color: var(--primary); margin-bottom: 15px; }
-
-        /* JOURNEY / TIMELINE */
-        .timeline { border-left: 2px solid rgba(255,255,255,0.1); max-width: 650px; margin: auto; text-align: left; padding-left: 35px; }
-        .t-item { 
-            background: var(--card); padding: 30px; border-radius: 25px; margin-bottom: 30px; 
-            position: relative; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;
-        }
-        .t-item:hover { border-color: var(--primary); }
-        .t-item::before { content: ''; position: absolute; left: -46px; top: 35px; width: 20px; height: 2px; background: var(--primary); }
 
         /* FOOTER */
         footer { padding: 80px 20px; background: #000; text-align: center; border-top: 1px solid #111; }
-        .wa-link { color: #25d366; font-size: 4rem; text-decoration: none; transition: 0.4s; display: inline-block; margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(37, 211, 102, 0.2)); }
-        .wa-link:hover { transform: scale(1.15) rotate(10deg); filter: drop-shadow(0 0 20px rgba(37, 211, 102, 0.4)); }
-        footer p { color: #666; font-size: 0.9rem; letter-spacing: 1.5px; margin-top: 20px; }
+        .wa-link { color: #25d366; font-size: 4rem; text-decoration: none; display: inline-block; }
 
-        /* Responsive Fixes */
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .section { padding: 60px 5%; }
-            .price-card { padding: 30px 20px; }
-        }
+        @media (max-width: 768px) { h1 { font-size: 2.5rem; } nav { padding: 15px 5%; } }
     </style>
-
 </head>
 <body>
 
+    <div class="orb"></div>
+
+    <nav id="navbar">
+        <div class="logo">SUDDAIS.</div>
+        <a href="https://wa.me/923182187575" style="color: var(--primary); text-decoration: none; font-weight: bold;">CONTACT</a>
+    </nav>
+
     <div id="preloader">
-        <h2 style="color: var(--primary); letter-spacing: 5px; font-size: 1.2rem;">SUDDAIS AHMED</h2>
+        <h2 style="color: var(--primary); letter-spacing: 5px;">SUDDAIS AHMED</h2>
         <div class="loader-line-container"><div class="loader-line"></div></div>
     </div>
 
     <div id="main-content">
         <header>
+            <div class="profile-icon">S</div>
             <h1>SUDDAIS <span>AHMED</span></h1>
             <div class="typing" id="typewriter"></div>
-            <a href="My-CV.pdf" download class="cv-btn">
-                <i class="fas fa-cloud-download-alt"></i> GET MY CV
-            </a>
+            <a href="#" class="cv-btn"><i class="fas fa-cloud-download-alt"></i> GET MY CV</a>
         </header>
 
         <section class="section">
             <h2>Latest <span style="color: var(--primary);">Projects</span></h2>
             <div class="slider-wrapper">
                 <div class="slider" id="mainSlider">
-                    <div class="slide">
-                        <i class="fas fa-shopping-cart"></i>
-                        <h3>E-Commerce Web App</h3>
-                        <p>ایک مکمل آن لائن اسٹور کا جدید ڈیزائن جس میں کسٹمرز آسانی سے خریداری کر سکتے ہیں۔</p>
-                    </div>
-                    <div class="slide">
-                        <i class="fas fa-laptop-code"></i>
-                        <h3>Business Landing Page</h3>
-                        <p>کمپنیوں کے لیے تیز رفتار اور پروفیشنل ون پیج ویب سائٹس جو بزنس بڑھانے میں مددگار ہیں۔</p>
-                    </div>
-                    <div class="slide">
-                        <i class="fas fa-user-tie"></i>
-                        <h3>Portfolio Expert</h3>
-                        <p>پرسنل برانڈنگ کے لیے خوبصورت پورٹ فولیو ڈیزائنز جو ہر ڈیوائس پر فٹ آتے ہیں۔</p>
-                    </div>
+                    <div class="slide"><i class="fas fa-shopping-cart"></i><h3>E-Commerce Web App</h3><p>ایک مکمل آن لائن اسٹور کا جدید ڈیزائن۔</p></div>
+                    <div class="slide"><i class="fas fa-laptop-code"></i><h3>Business Landing Page</h3><p>تیز رفتار اور پروفیشنل ویب سائٹس۔</p></div>
+                    <div class="slide"><i class="fas fa-user-tie"></i><h3>Portfolio Expert</h3><p>خوبصورت پرسنل پورٹ فولیو ڈیزائنز۔</p></div>
                 </div>
                 <div>
-                    <button class="s-btn" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i> Back</button>
-                    <button class="s-btn" onclick="moveSlide(1)">Next <i class="fas fa-chevron-right"></i></button>
+                    <button class="s-btn" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+                    <button class="s-btn" onclick="moveSlide(1)"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
         </section>
@@ -177,8 +159,6 @@
                     <ul>
                         <li><i class="fas fa-check-circle"></i> Complete Web Design</li>
                         <li><i class="fas fa-check-circle"></i> Mobile Responsive</li>
-                        <li><i class="fas fa-check-circle"></i> Basic SEO Optimization</li>
-                        <li><i class="fas fa-check-circle"></i> 1 month Free Support</li>
                     </ul>
                     <a href="https://wa.me/923182187575" class="cv-btn">ORDER NOW</a>
                 </div>
@@ -187,9 +167,7 @@
                     <div class="cost">Rs. 3,000</div>
                     <ul>
                         <li><i class="fas fa-check-circle"></i> Monthly Updates</li>
-                        <li><i class="fas fa-check-circle"></i> Daily Backups</li>
-                        <li><i class="fas fa-check-circle"></i> Security Monitoring</li>
-                        <li><i class="fas fa-check-circle"></i> Content Management</li>
+                        <li><i class="fas fa-check-circle"></i> 24/7 Support</li>
                     </ul>
                     <a href="https://wa.me/923182187575" class="cv-btn">SUBSCRIBE</a>
                 </div>
@@ -203,32 +181,11 @@
                 <div class="skill-card"><i class="fab fa-css3-alt"></i><p>CSS3</p></div>
                 <div class="skill-card"><i class="fab fa-js"></i><p>JAVASCRIPT</p></div>
                 <div class="skill-card"><i class="fab fa-wordpress"></i><p>WORDPRESS</p></div>
-                <div class="skill-card"><i class="fas fa-search-dollar"></i><p>SEO</p></div>
-                <div class="skill-card"><i class="fas fa-paint-brush"></i><p>UI/UX</p></div>
-            </div>
-        </section>
-
-        <section class="section">
-            <h2>My <span style="color: var(--primary);">Journey</span></h2>
-            <div class="timeline">
-                <div class="t-item">
-                    <span style="color: var(--primary); font-weight: bold; font-size: 0.8rem;">2024 - PRESENT</span>
-                    <h3 style="font-size: 1.1rem; margin: 5px 0;">Web Development Diploma</h3>
-                    <p style="font-size: 0.85rem; color: #888;">Specialized training in modern front-end & back-end frameworks.</p>
-                </div>
-                <div class="t-item">
-                    <span style="color: var(--primary); font-weight: bold; font-size: 0.8rem;">2022 - 2024</span>
-                    <h3 style="font-size: 1.1rem; margin: 5px 0;">Computer Science (HSC)</h3>
-                    <p style="font-size: 0.85rem; color: #888;">Foundational education in programming and logic building.</p>
-                </div>
             </div>
         </section>
 
         <footer>
-            <h2>Interested in Working?</h2>
-            <a href="https://wa.me/923182187575" class="wa-link">
-                <i class="fab fa-whatsapp"></i>
-            </a>
+            <a href="https://wa.me/923182187575" class="wa-link"><i class="fab fa-whatsapp"></i></a>
             <p>&copy; 2026 SUDDAIS AHMED | ALL RIGHTS RESERVED</p>
         </footer>
     </div>
@@ -259,19 +216,19 @@
             document.getElementById('mainSlider').style.transform = `translateX(-${slideIndex * 100}%)`;
         }
 
-        // اسکرول اینیمیشن کے لیے
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-        }
-    });
-}, { threshold: 0.1 });
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) { entry.target.classList.add('active'); }
+            });
+        }, { threshold: 0.1 });
 
-document.querySelectorAll('.section').forEach((section) => {
-    observer.observe(section);
-});
+        document.querySelectorAll('.section').forEach((section) => { observer.observe(section); });
 
+        // Navbar اسکرول ایفیکٹ
+        window.onscroll = () => {
+            if (window.scrollY > 50) { document.getElementById('navbar').style.background = 'rgba(0,0,0,0.8)'; }
+            else { document.getElementById('navbar').style.background = 'rgba(0,0,0,0.2)'; }
+        };
     </script>
 </body>
 </html>
